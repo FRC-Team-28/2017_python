@@ -1,14 +1,15 @@
-import wpilib
-import drive
+import wpilib as wp
 
 
-class Robot2017(wpilib.IterativeRobot):
+class Robot2017(wp.IterativeRobot):
     def robotInit(self):
         """
         This function is called upon program startup and
         should be used for any initialization code.
         """
-        pass
+        self.pot = wp.AnalogInput(0)
+        self.led = wp.DigitalOutput(0)
+        self.led.enablePWM(self.pot.getVoltage() / 5)
 
     def autonomousInit(self):
         """This function is run once each time the robot enters autonomous mode."""
@@ -20,12 +21,12 @@ class Robot2017(wpilib.IterativeRobot):
 
     def teleopPeriodic(self):
         """This function is called periodically during operator control."""
-        pass
+        self.led.updateDutyCycle(self.pot.getVoltage() / 5)
 
     def testPeriodic(self):
         """This function is called periodically during test mode."""
-        wpilib.LiveWindow.run()
+        wp.LiveWindow.run()
 
 
 if __name__ == "__main__":
-    wpilib.run(Robot2017)
+    wp.run(Robot2017)
